@@ -4,13 +4,19 @@
  */
 package empleados;
 
+import java.util.*;
+
 /**
  *
  * @author Gabo
  */
-public class Asistencia extends javax.swing.JFrame {
+public class Asistencia extends javax.swing.JFrame implements  Runnable{
 
     Redimensionador escala = new Redimensionador();
+    public String dia,mes,anio,hora,minutos,segundos,ampm;
+     int mesE,mes1;
+    Calendar calendario;
+    Thread h1;
 
     /**
      * Creates new form Asistencia
@@ -20,6 +26,10 @@ public class Asistencia extends javax.swing.JFrame {
         escala.resizeImageIcon(jbtnCerrar, "src/images/cerrar.png");
         escala.resizeImageIcon(jbtnMaximizar, "src/images/maximizar.png");
         escala.resizeImageIcon(jbtnMinimizar, "src/images/menos.png");
+        h1 = new Thread(this);
+        h1.start();
+        setLocationRelativeTo(null);
+        System.out.println(mes);
     }
 
     /**
@@ -31,6 +41,10 @@ public class Asistencia extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel4 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jlblReloj = new javax.swing.JLabel();
+        jlblFecha = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -39,9 +53,38 @@ public class Asistencia extends javax.swing.JFrame {
         jbtnMinimizar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 153));
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 153));
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jlblReloj.setFont(new java.awt.Font("Trebuchet MS", 1, 48)); // NOI18N
+        jlblReloj.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        jlblFecha.setFont(new java.awt.Font("Trebuchet MS", 1, 48)); // NOI18N
+        jlblFecha.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jlblReloj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jlblFecha, javax.swing.GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(17, Short.MAX_VALUE)
+                .addComponent(jlblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jlblReloj, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        jLabel1.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("REGISTRO DE ASISTENCIA");
 
@@ -51,8 +94,8 @@ public class Asistencia extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(61, 61, 61)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(52, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -94,28 +137,41 @@ public class Asistencia extends javax.swing.JFrame {
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(165, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(134, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(229, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(223, 223, 223))))
+            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(264, Short.MAX_VALUE))
+            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -164,8 +220,59 @@ public class Asistencia extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JButton jbtnCerrar;
     private javax.swing.JButton jbtnMaximizar;
     private javax.swing.JButton jbtnMinimizar;
+    private javax.swing.JLabel jlblFecha;
+    private javax.swing.JLabel jlblReloj;
     // End of variables declaration//GEN-END:variables
+
+   
+    
+    
+    private void calcula() {
+        calendario=new GregorianCalendar();
+        Date fechaHoraActual = new Date();
+        
+        calendario.setTime(fechaHoraActual);
+        ampm = calendario.get(Calendar.AM_PM)==Calendar.AM?"AM":"PM";
+        // VERIFICAR SI LA HORA ES PM O AM
+        if (ampm.equals("PM")) {
+            int h =calendario.get(Calendar.HOUR_OF_DAY)-12;
+            //hora=h>9?""+h:"0"+h;
+             hora = String.valueOf(calendario.get(Calendar.HOUR_OF_DAY));
+        }else{
+           // hora = calendario.get(Calendar.HOUR_OF_DAY)>9?""+calendario.get(Calendar.HOUR_OF_DAY):"0"+calendario.get(Calendar.HOUR_OF_DAY);
+          
+        }
+        
+        minutos =  calendario.get(Calendar.MINUTE)>9?""+calendario.get(Calendar.MINUTE):"0"+calendario.get(Calendar.MINUTE);
+        segundos = calendario.get(Calendar.SECOND)>9?""+calendario.get(Calendar.SECOND):"0"+calendario.get(Calendar.SECOND);
+        dia = calendario.get(Calendar.DATE)>9?""+calendario.get(Calendar.DATE):"0"+calendario.get(Calendar.DATE);
+        mes = calendario.get(Calendar.MONTH)>9?""+calendario.get(Calendar.MONTH):"0"+calendario.get(Calendar.MONTH);
+        anio = calendario.get(Calendar.YEAR)>9?""+calendario.get(Calendar.YEAR):"0"+calendario.get(Calendar.YEAR);
+        mes1 = Integer.parseInt(mes);
+    }
+      
+
+     @Override
+    public void run() {
+        //DEFINIMOS EL HILO
+        Thread ct = Thread.currentThread();
+       
+        while (ct==h1) {    
+           
+           mesE = mes1+1;
+            calcula();
+            jlblFecha.setText(dia+"/"+mesE+"/"+anio);
+            jlblReloj.setText(hora+":"+minutos+":"+segundos+" "+ampm);
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
+            }
+        }
+    }
+    
 }
