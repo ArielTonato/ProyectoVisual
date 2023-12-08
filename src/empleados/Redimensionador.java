@@ -29,21 +29,20 @@ public class Redimensionador {
         button.setIcon(resizedIcon);
     }
     
-    public void resizeImageIcon(JPanel panel, String ruta) {
-    ImageIcon imageIcon = new ImageIcon(ruta);
-    Image image = imageIcon.getImage();
+    public void resizeImageLabel(JLabel label, String ruta) {
+        ImageIcon imageIcon = new ImageIcon(ruta);
+        Image image = imageIcon.getImage();
+        
+         int labelWidth = label.getWidth();
+        int labelHeight = label.getHeight();
+        
+         Image resizedImage = image.getScaledInstance(labelWidth, labelHeight, Image.SCALE_DEFAULT);
+        ImageIcon resizedIcon = new ImageIcon(resizedImage);
 
-    int panelWidth = panel.getWidth();
-    int panelHeight = panel.getHeight();
+        label.setIcon(resizedIcon);
+        
 
-    Image resizedImage = image.getScaledInstance(panelWidth, panelHeight, Image.SCALE_SMOOTH);
-    ImageIcon resizedIcon = new ImageIcon(resizedImage);
-
-    JLabel label = new JLabel(resizedIcon);
-    panel.removeAll();
-    panel.add(label);
-    panel.revalidate();
-    panel.repaint();
+        
 }
     
 }
