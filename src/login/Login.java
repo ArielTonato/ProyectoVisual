@@ -30,6 +30,7 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
         r.resizeImageLabel(jlblGrafico, "src/images/albert.png");
+        r.resizeImageIcon(jbtnNuevoUsuario, "src/images/add-user.png");
         setIconImage(new ImageIcon(getClass().getResource("/images/profesor.png")).getImage());
         setLocationRelativeTo(null);
 
@@ -92,6 +93,7 @@ public class Login extends javax.swing.JFrame {
         jlblGrafico = new javax.swing.JLabel();
         jbtnLogin = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        jbtnNuevoUsuario = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -139,7 +141,9 @@ public class Login extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jpswContrasenia, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
                             .addComponent(jtxtCorreo, javax.swing.GroupLayout.Alignment.TRAILING))))
-                .addGap(231, 231, 231))
+                .addGap(52, 52, 52)
+                .addComponent(jbtnNuevoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(122, 122, 122))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,7 +169,8 @@ public class Login extends javax.swing.JFrame {
                 .addGap(48, 48, 48)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtxtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel1)
+                    .addComponent(jbtnNuevoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jpswContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -235,6 +240,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton jbtnLogin;
+    private javax.swing.JButton jbtnNuevoUsuario;
     private javax.swing.JLabel jlblGrafico;
     private javax.swing.JPasswordField jpswContrasenia;
     private javax.swing.JTextField jtxtCorreo;

@@ -26,6 +26,12 @@ public class Usuarios {
         this.rol = rol;
         this.estado = estado;
     }
+    
+     public Usuarios(String correo, String contrasenia, String rol) {
+        this.correo = correo;
+        this.contrasenia = contrasenia;
+        this.rol = rol;
+    }
 
     public String getCorreo() {
         return correo;

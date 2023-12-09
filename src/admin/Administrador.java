@@ -25,7 +25,7 @@ DefaultTableModel modelo = new DefaultTableModel();
     public Administrador() {
         initComponents();
         setLocationRelativeTo(null);
-        r.resizeImageIcon(jbtnInicio, "src/images/home.png");
+        r.resizeImageIcon(jbtnInicio, "src/images/volver.png");
         r.resizeImageIcon(jbtnGuardar, "src/images/guardar.png");
         r.resizeImageIcon(jbtnEditar, "src/images/editar.png");
         r.resizeImageIcon(jbtnCancelar, "src/images/clean.png");

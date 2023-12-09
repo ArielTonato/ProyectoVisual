@@ -65,7 +65,9 @@
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="231" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
+                  <Component id="jbtnNuevoUsuario" min="-2" pref="50" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
               </Group>
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -101,6 +103,7 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jtxtCorreo" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jbtnNuevoUsuario" alignment="0" min="-2" pref="50" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -173,6 +176,8 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Sistema Registro de Asistencia"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="jbtnNuevoUsuario">
         </Component>
       </SubComponents>
     </Container>
