@@ -18,13 +18,12 @@ public class Conexion {
     Connection conexion = null;
 
     public Connection conectar() {
-        String url = "jdbc:mysql://aws.connect.psdb.cloud/visualproyecto?sslMode=VERIFY_IDENTITY";
-        String user = "58glqboc06iha6cboynx";
-        String password = "pscale_pw_FEfkoJ7tpWUEpM4oF6uXF7FZK8RcJRnWWnX0zG3KtNg";
+        String url = "jdbc:mysql://localhost/asistencia";
+        String user = "root";
+        String password = "";
         
         try {
             conexion = DriverManager.getConnection(url, user, password);
-            JOptionPane.showMessageDialog(null, "Exito");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex);
         }

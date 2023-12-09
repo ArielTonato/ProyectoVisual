@@ -15,6 +15,11 @@ public class Usuarios {
     private String rol;
     private String estado;
 
+    public Usuarios(){
+        
+    }
+    
+    
     public Usuarios(String correo, String contrasenia, String rol, String estado) {
         this.correo = correo;
         this.contrasenia = contrasenia;
