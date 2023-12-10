@@ -40,7 +40,7 @@ public class Login extends javax.swing.JFrame {
         jtxtCorreo.setText("");
         jpswContrasenia.setText("");
     }
-    
+
 // Metodo de Ingreso al login de los dos usuarios (Administrador-Empleado)
     public void ingresoLogin() {
 
@@ -48,22 +48,22 @@ public class Login extends javax.swing.JFrame {
         boolean contraseniaCorrecta = false;
 
         for (Usuarios usuario : sentencias.ingreso(jtxtCorreo.getText())) {
-            
+
             if (usuario.getCorreo().equals(jtxtCorreo.getText())) {
-                
+
                 correoEncontrado = true;
                 if (usuario.getContrasenia().equals(jpswContrasenia.getText())) {
-                    
+
                     contraseniaCorrecta = true;
                     if (usuario.getRol().equals("administrador")) {
-                        
+
                         Administrador admin = new Administrador();
                         admin.setVisible(true);
                         this.setVisible(false);
                     } else if (usuario.getRol().equals("empleado")) {
                         Asistencia empleado = new Asistencia();
                         empleado.setVisible(true);
-                         this.setVisible(false);
+                        this.setVisible(false);
                     }
                     break; // Se encontró el usuario y la contraseña, salir del bucle
                 }
@@ -79,7 +79,12 @@ public class Login extends javax.swing.JFrame {
         }
     }
 
-    
+    public void crerCuenta() {
+        this.setVisible(false);
+        nuevaCuenta n = new nuevaCuenta();
+        n.setVisible(true);
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -120,6 +125,12 @@ public class Login extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Sistema Registro de Asistencia");
+
+        jbtnNuevoUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnNuevoUsuarioActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -167,10 +178,11 @@ public class Login extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jlblGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(48, 48, 48)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtxtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(jbtnNuevoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jbtnNuevoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jtxtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1)))
                 .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jpswContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -195,8 +207,13 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLoginActionPerformed
- ingresoLogin();
+        ingresoLogin();
     }//GEN-LAST:event_jbtnLoginActionPerformed
+
+    private void jbtnNuevoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnNuevoUsuarioActionPerformed
+        // TODO add your handling code here:
+        crerCuenta();
+    }//GEN-LAST:event_jbtnNuevoUsuarioActionPerformed
 
     /**
      * @param args the command line arguments

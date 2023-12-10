@@ -8,6 +8,7 @@ import SQL.Sentencias;
 import empleados.Empleados;
 import empleados.Redimensionador;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -30,20 +31,54 @@ DefaultTableModel modelo = new DefaultTableModel();
         r.resizeImageIcon(jbtnEditar, "src/images/editar.png");
         r.resizeImageIcon(jbtnCancelar, "src/images/clean.png");
         r.resizeImageIcon(jbtnEliminar, "src/images/delete.png");
+        llenarCombo();
         setIconImage(new ImageIcon(getClass().getResource("/images/profesor.png")).getImage());
         cargarTabla();
 
     }
     
+     public void llenarCombo() {
+        String[] naciones = {"Seleccionar", "Ecuatoriana", "Colombiana","Ingles"};
+        String[] cantones = {"Seleccionar", "Ambato", "Patate","Baños"};
+        for (String na : naciones) {
+            jcbxNacionalidad.addItem(na);
+        }
+        for (String can : cantones) {
+            jcbxCantones.addItem(can );
+        }
+
+    }
+    
     public void cargarTabla(){
-        String[] titles= {"Cedula","Nombre 1","Nombre2","Apellido1","Apellido2","Sueldo","Correo","Nacionalidad","Sexo","ID Digital"};
+        String[] titles= {"Cedula","Nombre ","Nombre ","Apellido ","Apellido ","Sueldo ","Correo "};
         modelo.setColumnIdentifiers(titles);
+        
+        while (modelo.getRowCount() > 0) {
+            modelo.removeRow(0);
+        }
+        
         for (Empleados empleado : sentencia.cargarDatos()) {
             Object[] fila = {empleado.getCedula(),empleado.getPrimerNombre(),empleado.getSegundoNombre(),empleado.getPrimerApellido(),empleado.getSegundoApellido()
-           ,empleado.getSueldo(),empleado.getCorreo(),empleado.getNacionalidad(),empleado.getSexo(),empleado.getIdDigital()};
+           ,empleado.getSueldo(),empleado.getCorreoPertenece()};
             modelo.addRow(fila);
         }
         jtblDatos.setModel(modelo);
+    }
+    
+    public void ingresarEmpleado(){
+        Sentencias s = new Sentencias();
+        
+      Empleados empleado = new Empleados(jtxtCedula.getText(), jtxtPnombre.getText(), jtxtSnombre.getText()
+              , jtxtPapellido.getText(), jtxtSapellido.getText(), jtxtTelefono.getText(), Double.parseDouble(jtxtSueldo.getText())
+              , jformatFecha.getText(), jcbxNacionalidad.getSelectedItem().toString(), jcbxCantones.getSelectedItem().toString()
+              , jtxtIdDigital.getText(), jtxtCorreo.getText());
+        
+        if (s.ingresarEmpleado(empleado, jtxtCorreo.getText())>0) {
+            JOptionPane.showMessageDialog(null, "Empleado Ingresado");
+            cargarTabla();
+        } else {
+              JOptionPane.showMessageDialog(null, "Empleado No  Ingresado");
+        }
     }
 
     /**
@@ -64,21 +99,24 @@ DefaultTableModel modelo = new DefaultTableModel();
         jlblPapellido = new javax.swing.JLabel();
         jlblSapellido = new javax.swing.JLabel();
         jlblSueldo = new javax.swing.JLabel();
-        jlblCorreo = new javax.swing.JLabel();
+        jlblFechaNacimiento = new javax.swing.JLabel();
         jlblNacionalidad = new javax.swing.JLabel();
-        jlblSexo = new javax.swing.JLabel();
+        jlblCanton = new javax.swing.JLabel();
         jlblTsangre = new javax.swing.JLabel();
         jtxtCedula = new javax.swing.JTextField();
         jtxtPnombre = new javax.swing.JTextField();
         jtxtSnombre = new javax.swing.JTextField();
         jtxtPapellido = new javax.swing.JTextField();
         jtxtSapellido = new javax.swing.JTextField();
-        jtxtCorreo = new javax.swing.JTextField();
         jcbxNacionalidad = new javax.swing.JComboBox<>();
-        jchxMasculino = new javax.swing.JCheckBox();
-        jchxFemenino = new javax.swing.JCheckBox();
         jtxtIdDigital = new javax.swing.JTextField();
         jtxtSueldo = new javax.swing.JTextField();
+        jformatFecha = new javax.swing.JFormattedTextField();
+        jtxtCorreo = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jlblTelefono = new javax.swing.JLabel();
+        jtxtTelefono = new javax.swing.JTextField();
+        jcbxCantones = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jbtnGuardar = new javax.swing.JButton();
         jbtnEditar = new javax.swing.JButton();
@@ -119,29 +157,31 @@ DefaultTableModel modelo = new DefaultTableModel();
         jlblSueldo.setForeground(new java.awt.Color(0, 0, 0));
         jlblSueldo.setText("Sueldo:");
 
-        jlblCorreo.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
-        jlblCorreo.setForeground(new java.awt.Color(0, 0, 0));
-        jlblCorreo.setText("Correo:");
+        jlblFechaNacimiento.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
+        jlblFechaNacimiento.setForeground(new java.awt.Color(0, 0, 0));
+        jlblFechaNacimiento.setText("Fecha de Nacimiento:");
 
         jlblNacionalidad.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
         jlblNacionalidad.setForeground(new java.awt.Color(0, 0, 0));
         jlblNacionalidad.setText("Nacionalidad:");
 
-        jlblSexo.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
-        jlblSexo.setForeground(new java.awt.Color(0, 0, 0));
-        jlblSexo.setText("Sexo:");
+        jlblCanton.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
+        jlblCanton.setForeground(new java.awt.Color(0, 0, 0));
+        jlblCanton.setText("Canton");
 
         jlblTsangre.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
         jlblTsangre.setForeground(new java.awt.Color(0, 0, 0));
         jlblTsangre.setText("ID Digital");
 
-        jcbxNacionalidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jformatFecha.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
 
-        btnGroup.add(jchxMasculino);
-        jchxMasculino.setText("M");
+        jLabel2.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setText("Correo:");
 
-        btnGroup.add(jchxFemenino);
-        jchxFemenino.setText("F");
+        jlblTelefono.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
+        jlblTelefono.setForeground(new java.awt.Color(0, 0, 0));
+        jlblTelefono.setText("Telefono:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -167,35 +207,47 @@ DefaultTableModel modelo = new DefaultTableModel();
                         .addGap(18, 18, 18)
                         .addComponent(jtxtPnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jlblSapellido)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jlblSapellido)
+                            .addComponent(jlblTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtxtSapellido)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtxtSapellido)
+                            .addComponent(jtxtTelefono))))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jlblCorreo, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jlblFechaNacimiento, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jlblSueldo, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jtxtCorreo)
-                            .addComponent(jtxtSueldo, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)))
+                            .addComponent(jtxtSueldo, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+                            .addComponent(jformatFecha)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jlblSexo)
-                            .addComponent(jlblNacionalidad)
-                            .addComponent(jlblTsangre))
-                        .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jchxMasculino)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jchxFemenino)
-                                    .addGap(26, 26, 26))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(55, 55, 55)
+                                .addComponent(jlblNacionalidad)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jcbxNacionalidad, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jtxtIdDigital, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(73, 73, 73)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jlblTsangre)
+                                            .addComponent(jLabel2))
+                                        .addGap(18, 18, 18))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jlblCanton)
+                                        .addGap(11, 11, 11)))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jtxtIdDigital, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+                                    .addComponent(jtxtCorreo)
+                                    .addComponent(jcbxCantones, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(0, 3, Short.MAX_VALUE)))
                 .addContainerGap(50, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -212,36 +264,44 @@ DefaultTableModel modelo = new DefaultTableModel();
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jlblPnombre)
                         .addComponent(jtxtPnombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jlblCorreo)
-                        .addComponent(jtxtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jlblFechaNacimiento)
+                    .addComponent(jformatFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jlblSnombre)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jtxtSnombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jlblNacionalidad)
-                                .addComponent(jcbxNacionalidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jtxtSnombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(29, 29, 29)
                         .addComponent(jlblPapellido)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jlblSapellido)
-                            .addComponent(jtxtSapellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jlblTsangre))
+                            .addComponent(jtxtSapellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jlblTelefono)
+                            .addComponent(jtxtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(60, 60, 60)
+                        .addGap(16, 16, 16)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jcbxNacionalidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jlblNacionalidad))
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jtxtPapellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jlblSexo)
-                            .addComponent(jchxMasculino)
-                            .addComponent(jchxFemenino))
+                            .addComponent(jlblCanton)
+                            .addComponent(jcbxCantones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(jtxtIdDigital, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(42, Short.MAX_VALUE))))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtxtIdDigital, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jlblTsangre))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtxtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addContainerGap(16, Short.MAX_VALUE))))
         );
 
         jLabel1.setFont(new java.awt.Font("Berlin Sans FB", 0, 24)); // NOI18N
@@ -299,7 +359,7 @@ DefaultTableModel modelo = new DefaultTableModel();
                         .addGap(169, 169, 169)
                         .addComponent(jLabel1))
                     .addComponent(jScrollPane1))
-                .addContainerGap(110, Short.MAX_VALUE))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -319,9 +379,9 @@ DefaultTableModel modelo = new DefaultTableModel();
                         .addGap(26, 26, 26)
                         .addComponent(jbtnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(47, 47, 47)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addGap(40, 40, 40))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -344,6 +404,7 @@ DefaultTableModel modelo = new DefaultTableModel();
 
     private void jbtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGuardarActionPerformed
         // TODO add your handling code here:
+        ingresarEmpleado();
     }//GEN-LAST:event_jbtnGuardarActionPerformed
 
     private void jbtnInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnInicioActionPerformed
@@ -388,6 +449,7 @@ DefaultTableModel modelo = new DefaultTableModel();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup btnGroup;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -396,18 +458,19 @@ DefaultTableModel modelo = new DefaultTableModel();
     private javax.swing.JButton jbtnEliminar;
     private javax.swing.JButton jbtnGuardar;
     private javax.swing.JButton jbtnInicio;
+    private javax.swing.JComboBox<String> jcbxCantones;
     private javax.swing.JComboBox<String> jcbxNacionalidad;
-    private javax.swing.JCheckBox jchxFemenino;
-    private javax.swing.JCheckBox jchxMasculino;
+    private javax.swing.JFormattedTextField jformatFecha;
+    private javax.swing.JLabel jlblCanton;
     private javax.swing.JLabel jlblCedula;
-    private javax.swing.JLabel jlblCorreo;
+    private javax.swing.JLabel jlblFechaNacimiento;
     private javax.swing.JLabel jlblNacionalidad;
     private javax.swing.JLabel jlblPapellido;
     private javax.swing.JLabel jlblPnombre;
     private javax.swing.JLabel jlblSapellido;
-    private javax.swing.JLabel jlblSexo;
     private javax.swing.JLabel jlblSnombre;
     private javax.swing.JLabel jlblSueldo;
+    private javax.swing.JLabel jlblTelefono;
     private javax.swing.JLabel jlblTsangre;
     private javax.swing.JTable jtblDatos;
     private javax.swing.JTextField jtxtCedula;
@@ -418,5 +481,6 @@ DefaultTableModel modelo = new DefaultTableModel();
     private javax.swing.JTextField jtxtSapellido;
     private javax.swing.JTextField jtxtSnombre;
     private javax.swing.JTextField jtxtSueldo;
+    private javax.swing.JTextField jtxtTelefono;
     // End of variables declaration//GEN-END:variables
 }

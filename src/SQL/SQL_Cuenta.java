@@ -20,7 +20,7 @@ public class SQL_Cuenta {
     
     // Metodo para gregar una nueva Cuenta de tipo Usuario 
     public int ingresarUsuario(Usuarios usuario){
-        String insert = "INSERT INTO usuarios (correo,contrasenia,rol) VALUES(?,?,?)";
+        String insert = "INSERT INTO usuarios (Corr_Usu ,Con_Usu, Rol_Usu) VALUES(?,?,?)";
         
         try {
             PreparedStatement pst = c.prepareStatement(insert);

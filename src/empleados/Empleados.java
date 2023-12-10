@@ -15,23 +15,27 @@ public class Empleados {
     private String segundoNombre;
     private String primerApellido;
     private String segundoApellido;
-    double sueldo;
-    private String correo;
+    private String telefono;
+    private double sueldo;
+    private String fechNacimiento;
     private String nacionalidad;
-    private String sexo;
+    private String canton;
     private String idDigital;
+    private String correoPertenece;
 
-    public Empleados(String cedula, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, double sueldo, String correo, String nacionalidad, String sexo, String idDigital) {
+    public Empleados(String cedula, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, String telefono, double sueldo, String fechNacimiento, String nacionalidad, String canton, String idDigital, String correoPertenece) {
         this.cedula = cedula;
         this.primerNombre = primerNombre;
         this.segundoNombre = segundoNombre;
         this.primerApellido = primerApellido;
         this.segundoApellido = segundoApellido;
+        this.telefono = telefono;
         this.sueldo = sueldo;
-        this.correo = correo;
+        this.fechNacimiento = fechNacimiento;
         this.nacionalidad = nacionalidad;
-        this.sexo = sexo;
+        this.canton = canton;
         this.idDigital = idDigital;
+        this.correoPertenece = correoPertenece;
     }
 
     public String getCedula() {
@@ -74,6 +78,14 @@ public class Empleados {
         this.segundoApellido = segundoApellido;
     }
 
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
     public double getSueldo() {
         return sueldo;
     }
@@ -82,12 +94,12 @@ public class Empleados {
         this.sueldo = sueldo;
     }
 
-    public String getCorreo() {
-        return correo;
+    public String getFechNacimiento() {
+        return fechNacimiento;
     }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
+    public void setFechNacimiento(String fechNacimiento) {
+        this.fechNacimiento = fechNacimiento;
     }
 
     public String getNacionalidad() {
@@ -98,12 +110,12 @@ public class Empleados {
         this.nacionalidad = nacionalidad;
     }
 
-    public String getSexo() {
-        return sexo;
+    public String getCanton() {
+        return canton;
     }
 
-    public void setSexo(String sexo) {
-        this.sexo = sexo;
+    public void setCanton(String canton) {
+        this.canton = canton;
     }
 
     public String getIdDigital() {
@@ -114,8 +126,14 @@ public class Empleados {
         this.idDigital = idDigital;
     }
 
+    public String getCorreoPertenece() {
+        return correoPertenece;
+    }
+
+    public void setCorreoPertenece(String correoPertenece) {
+        this.correoPertenece = correoPertenece;
+    }
     
-   
     
-    
+  
 }
