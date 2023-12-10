@@ -77,7 +77,7 @@ public class Sentencias {
 
         } catch (Exception e) {
             System.out.println(e);
-        } 
+        }
         return empleado;
     }
 
@@ -97,53 +97,97 @@ public class Sentencias {
             }
         } catch (Exception e) {
             System.out.println(e);
-        } 
+        }
 
         return almacenar;
     }
 
-   public int ingresarEmpleado(Empleados empleado, String correoComparacion) {
-       
-    empleado.setCorreoPertenece(obtenerForeignKey(correoComparacion));
-    int n = 0;
-    PreparedStatement preparedStatement = null; 
-
-    try {
-        String insertQuery = "INSERT INTO empleados (Ced_Emp, Nom1_Emp, Nom2_Emp, Ape1_Emp, Ape2_Emp,Tel_Emp, Sue_Emp, Fec_Nac, Nac_Emp, Can_Emp, idDigital, Corr_Emp_Per) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
-
-        preparedStatement = con.prepareStatement(insertQuery);
-
-        preparedStatement.setString(1, empleado.getCedula());
-        preparedStatement.setString(2, empleado.getPrimerNombre());
-        preparedStatement.setString(3, empleado.getSegundoNombre());
-        preparedStatement.setString(4, empleado.getPrimerApellido());
-        preparedStatement.setString(5, empleado.getSegundoApellido());
-        preparedStatement.setString(6, empleado.getTelefono());
-        preparedStatement.setDouble(7, empleado.getSueldo());
-        preparedStatement.setString(8, empleado.getFechNacimiento());
-        preparedStatement.setString(9, empleado.getNacionalidad());
-        preparedStatement.setString(10, empleado.getCanton());
-        preparedStatement.setString(11, empleado.getIdDigital());
-        preparedStatement.setString(12, empleado.getCorreoPertenece());
-
-        n = preparedStatement.executeUpdate(); // Ejecuta la inserción
-
-    } catch (SQLException ex) {
-        System.out.println(ex);
-    } finally {
+    public int editarEmpleado(Empleados empleado, String correo) {
+        int n = 0;
+        PreparedStatement preparedStatement = null;
         try {
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-            if (con != null) {
-                con.close();
-            }
+            String edit = "UPDATE empleados set Ced_Emp=?, Nom1_Emp=?, Nom2_Emp=?, Ape1_Emp=?, Ape2_Emp=?,Tel_Emp=?, Sue_Emp=?, Fec_Nac=?, Nac_Emp=?, "
+                    + "Can_Emp=?, idDigital=? WHERE Corr_Emp_Per='" + correo + "'";
+
+            preparedStatement = con.prepareStatement(edit);
+
+            preparedStatement.setString(1, empleado.getCedula());
+            preparedStatement.setString(2, empleado.getPrimerNombre());
+            preparedStatement.setString(3, empleado.getSegundoNombre());
+            preparedStatement.setString(4, empleado.getPrimerApellido());
+            preparedStatement.setString(5, empleado.getSegundoApellido());
+            preparedStatement.setString(6, empleado.getTelefono());
+            preparedStatement.setDouble(7, empleado.getSueldo());
+            preparedStatement.setString(8, empleado.getFechNacimiento());
+            preparedStatement.setString(9, empleado.getNacionalidad());
+            preparedStatement.setString(10, empleado.getCanton());
+            preparedStatement.setString(11, empleado.getIdDigital());
+
+            n = preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+        return n;
+    }
+    
+    
+     public int eliminarEmpleado(Empleados empleado , String correo) {
+        int n = 0;
+        empleado.setCorreoPertenece(correo);
+        try {
+            String eliminar = "DELETE FROM empleados WHERE Corr_Emp_Per=?";
+            PreparedStatement statement = con.prepareStatement(eliminar);
+            statement.setString(1, empleado.getCorreoPertenece());
+            n = statement.executeUpdate();
         } catch (SQLException ex) {
             System.out.println(ex);
         }
+        return n;
     }
-    return n;
-}
+    
 
+    public int ingresarEmpleado(Empleados empleado, String correoComparacion) {
+
+        empleado.setCorreoPertenece(obtenerForeignKey(correoComparacion));
+        int n = 0;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            String insertQuery = "INSERT INTO empleados (Ced_Emp, Nom1_Emp, Nom2_Emp, Ape1_Emp, Ape2_Emp,Tel_Emp, Sue_Emp, Fec_Nac, Nac_Emp, "
+                    + "Can_Emp, idDigital, Corr_Emp_Per) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+
+            preparedStatement = con.prepareStatement(insertQuery);
+
+            preparedStatement.setString(1, empleado.getCedula());
+            preparedStatement.setString(2, empleado.getPrimerNombre());
+            preparedStatement.setString(3, empleado.getSegundoNombre());
+            preparedStatement.setString(4, empleado.getPrimerApellido());
+            preparedStatement.setString(5, empleado.getSegundoApellido());
+            preparedStatement.setString(6, empleado.getTelefono());
+            preparedStatement.setDouble(7, empleado.getSueldo());
+            preparedStatement.setString(8, empleado.getFechNacimiento());
+            preparedStatement.setString(9, empleado.getNacionalidad());
+            preparedStatement.setString(10, empleado.getCanton());
+            preparedStatement.setString(11, empleado.getIdDigital());
+            preparedStatement.setString(12, empleado.getCorreoPertenece());
+
+            n = preparedStatement.executeUpdate(); // Ejecuta la inserción
+
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }
+        return n;
+    }
 
 }

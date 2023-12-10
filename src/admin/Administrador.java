@@ -9,16 +9,21 @@ import empleados.Empleados;
 import empleados.Redimensionador;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import login.Login;
 
 /**
  *
  * @author Gabo
  */
 public class Administrador extends javax.swing.JFrame {
-DefaultTableModel modelo = new DefaultTableModel();
- Redimensionador r = new Redimensionador();
- Sentencias sentencia =  new Sentencias();
+
+    DefaultTableModel modelo = new DefaultTableModel();
+    Redimensionador r = new Redimensionador();
+    Sentencias sentencia = new Sentencias();
+    Login log = new Login();
 
     /**
      * Creates new form Administrador
@@ -34,50 +39,149 @@ DefaultTableModel modelo = new DefaultTableModel();
         llenarCombo();
         setIconImage(new ImageIcon(getClass().getResource("/images/profesor.png")).getImage());
         cargarTabla();
-
+        seleccionarFila();
     }
-    
-     public void llenarCombo() {
-        String[] naciones = {"Seleccionar", "Ecuatoriana", "Colombiana","Ingles"};
-        String[] cantones = {"Seleccionar", "Ambato", "Patate","Baños"};
+
+    public void seleccionarFila() {
+        jtblDatos.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (jtblDatos.getSelectedRow() != -1) {
+                    int fila = jtblDatos.getSelectedRow();
+                    jtxtCedula.setText(jtblDatos.getValueAt(fila, 0).toString());
+                    jtxtPnombre.setText(jtblDatos.getValueAt(fila, 1).toString());
+                    jtxtSnombre.setText(jtblDatos.getValueAt(fila, 2).toString());
+                    jtxtPapellido.setText(jtblDatos.getValueAt(fila, 3).toString());
+                    jtxtSapellido.setText(jtblDatos.getValueAt(fila, 4).toString());
+                    jtxtTelefono.setText(jtblDatos.getValueAt(fila, 5).toString());
+                    jtxtSueldo.setText(jtblDatos.getValueAt(fila, 6).toString());
+                    jformatFecha.setText(jtblDatos.getValueAt(fila, 7).toString());
+                    jcbxNacionalidad.setSelectedItem(jtblDatos.getValueAt(fila, 8).toString());
+                    jcbxCantones.setSelectedItem(jtblDatos.getValueAt(fila, 9).toString());
+                    jtxtIdDigital.setText(jtblDatos.getValueAt(fila, 10).toString());
+                    jtxtCorreo.setText(jtblDatos.getValueAt(fila, 11).toString());
+
+                    jtxtCorreo.setEnabled(false);
+                    jtxtCedula.setEnabled(false);
+
+                }
+            }
+
+        });
+    }
+
+    public void llenarCombo() {
+        String[] naciones = {"Seleccionar", "Ecuatoriana", "Colombiana", "Ingles"};
+        String[] cantones = {"Seleccionar", "Ambato", "Patate", "Baños"};
         for (String na : naciones) {
             jcbxNacionalidad.addItem(na);
         }
         for (String can : cantones) {
-            jcbxCantones.addItem(can );
+            jcbxCantones.addItem(can);
         }
 
     }
+
+    public void limpiarCampos() {
+        jtxtCedula.setText("");
+        jtxtPnombre.setText("");
+        jtxtSnombre.setText("");
+        jtxtPapellido.setText("");
+        jtxtSapellido.setText("");
+        jtxtSueldo.setText("");
+        jtxtTelefono.setText("");
+        jformatFecha.setText("");
+        jcbxNacionalidad.setSelectedItem("Seleccionar");
+        jcbxCantones.setSelectedItem("Seleccionar");
+        jtxtIdDigital.setText("");
+    }
     
-    public void cargarTabla(){
-        String[] titles= {"Cedula","Nombre ","Nombre ","Apellido ","Apellido ","Sueldo ","Correo "};
+     public void Clean() {
+        jtxtCedula.setText("");
+        jtxtPnombre.setText("");
+        jtxtSnombre.setText("");
+        jtxtPapellido.setText("");
+        jtxtSapellido.setText("");
+        jtxtSueldo.setText("");
+        jtxtTelefono.setText("");
+        jformatFecha.setText("");
+        jcbxNacionalidad.setSelectedItem("Seleccionar");
+        jcbxCantones.setSelectedItem("Seleccionar");
+        jtxtIdDigital.setText("");
+        jtxtCedula.setEnabled(true);
+        jtxtCorreo.setEnabled(true);
+        jtxtCorreo.setText("");
+    }
+
+    public void cargarTabla() {
+
+        String[] titles = {"Cedula", "Nombre ", "Nombre ", "Apellido ", "Apellido ", "Telefono", "Sueldo ", "F.Nac ", "Nacionalidad", "Canton", "IdD", "Correo"};
         modelo.setColumnIdentifiers(titles);
-        
+
         while (modelo.getRowCount() > 0) {
             modelo.removeRow(0);
         }
-        
+
         for (Empleados empleado : sentencia.cargarDatos()) {
-            Object[] fila = {empleado.getCedula(),empleado.getPrimerNombre(),empleado.getSegundoNombre(),empleado.getPrimerApellido(),empleado.getSegundoApellido()
-           ,empleado.getSueldo(),empleado.getCorreoPertenece()};
+            Object[] fila = {empleado.getCedula(), empleado.getPrimerNombre(), empleado.getSegundoNombre(), empleado.getPrimerApellido(), empleado.getTelefono(), empleado.getSegundoApellido(),
+                empleado.getSueldo(), empleado.getFechNacimiento(), empleado.getNacionalidad(), empleado.getCanton(), empleado.getIdDigital(), empleado.getCorreoPertenece()};
             modelo.addRow(fila);
         }
         jtblDatos.setModel(modelo);
     }
-    
-    public void ingresarEmpleado(){
+
+    public void ingresarEmpleado() {
         Sentencias s = new Sentencias();
-        
-      Empleados empleado = new Empleados(jtxtCedula.getText(), jtxtPnombre.getText(), jtxtSnombre.getText()
-              , jtxtPapellido.getText(), jtxtSapellido.getText(), jtxtTelefono.getText(), Double.parseDouble(jtxtSueldo.getText())
-              , jformatFecha.getText(), jcbxNacionalidad.getSelectedItem().toString(), jcbxCantones.getSelectedItem().toString()
-              , jtxtIdDigital.getText(), jtxtCorreo.getText());
-        
-        if (s.ingresarEmpleado(empleado, jtxtCorreo.getText())>0) {
+
+        Empleados empleado = new Empleados(jtxtCedula.getText(), jtxtPnombre.getText(), jtxtSnombre.getText(),
+                jtxtPapellido.getText(), jtxtSapellido.getText(), jtxtTelefono.getText(), Double.parseDouble(jtxtSueldo.getText()),
+                jformatFecha.getText(), jcbxNacionalidad.getSelectedItem().toString(), jcbxCantones.getSelectedItem().toString(),
+                jtxtIdDigital.getText(), jtxtCorreo.getText());
+
+        if (s.ingresarEmpleado(empleado, jtxtCorreo.getText()) > 0) {
             JOptionPane.showMessageDialog(null, "Empleado Ingresado");
             cargarTabla();
         } else {
-              JOptionPane.showMessageDialog(null, "Empleado No  Ingresado");
+            JOptionPane.showMessageDialog(null, "Empleado No  Ingresado");
+        }
+    }
+
+    public void editarEmpleado() {
+        // TODO add your handling code here:
+        int opcion = JOptionPane.showConfirmDialog(rootPane, "Esta seguro de actualizar?",
+                "Actualizar estudiante", JOptionPane.YES_NO_OPTION);
+        if (opcion == JOptionPane.YES_OPTION) {
+
+            Empleados empleado = new Empleados(jtxtCedula.getText(), jtxtPnombre.getText(), jtxtSnombre.getText(),
+                    jtxtPapellido.getText(), jtxtSapellido.getText(), jtxtTelefono.getText(), Double.parseDouble(jtxtSueldo.getText()),
+                    jformatFecha.getText(), jcbxNacionalidad.getSelectedItem().toString(), jcbxCantones.getSelectedItem().toString(),
+                    jtxtIdDigital.getText(), jtxtCorreo.getText());
+
+            if (sentencia.editarEmpleado(empleado, jtxtCorreo.getText()) > 0) {
+                JOptionPane.showMessageDialog(rootPane, "Se ha actualizado el estudiante");
+                limpiarCampos();
+                cargarTabla();
+            }
+        }
+    }
+    
+     public void eliminarEmpleado() {
+        // TODO add your handling code here:
+        int opcion = JOptionPane.showConfirmDialog(rootPane, "Esta seguro de Eliminar?",
+                "Eliminar Empleado", JOptionPane.YES_NO_OPTION);
+        if (opcion == JOptionPane.YES_OPTION) {
+            
+              Empleados empleado = new Empleados(jtxtCedula.getText(), jtxtPnombre.getText(), jtxtSnombre.getText(),
+                    jtxtPapellido.getText(), jtxtSapellido.getText(), jtxtTelefono.getText(), Double.parseDouble(jtxtSueldo.getText()),
+                    jformatFecha.getText(), jcbxNacionalidad.getSelectedItem().toString(), jcbxCantones.getSelectedItem().toString(),
+                    jtxtIdDigital.getText(), jtxtCorreo.getText());
+         
+            if (sentencia.eliminarEmpleado(empleado, jtxtCorreo.getText())> 0) {
+                JOptionPane.showMessageDialog(rootPane, "Se ha eliminado el Empleado");
+                limpiarCampos();
+                cargarTabla();
+                Clean();
+            }
         }
     }
 
@@ -173,6 +277,12 @@ DefaultTableModel modelo = new DefaultTableModel();
         jlblTsangre.setForeground(new java.awt.Color(0, 0, 0));
         jlblTsangre.setText("ID Digital");
 
+        jcbxNacionalidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbxNacionalidadActionPerformed(evt);
+            }
+        });
+
         jformatFecha.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
 
         jLabel2.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
@@ -215,40 +325,35 @@ DefaultTableModel modelo = new DefaultTableModel();
                             .addComponent(jtxtSapellido)
                             .addComponent(jtxtTelefono))))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jlblFechaNacimiento, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jlblSueldo, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jtxtSueldo, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-                            .addComponent(jformatFecha)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(71, 71, 71)
+                        .addComponent(jlblNacionalidad)
+                        .addGap(18, 18, 18)
+                        .addComponent(jcbxNacionalidad, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(96, 96, 96)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jlblTsangre)
+                            .addComponent(jlblCanton)
+                            .addComponent(jLabel2))
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtxtIdDigital, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jcbxCantones, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jtxtCorreo)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(55, 55, 55)
-                                .addComponent(jlblNacionalidad)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jcbxNacionalidad, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jlblSueldo)
+                                .addGap(26, 26, 26))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(73, 73, 73)
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jlblTsangre)
-                                            .addComponent(jLabel2))
-                                        .addGap(18, 18, 18))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jlblCanton)
-                                        .addGap(11, 11, 11)))
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jtxtIdDigital, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-                                    .addComponent(jtxtCorreo)
-                                    .addComponent(jcbxCantones, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addGap(0, 3, Short.MAX_VALUE)))
-                .addContainerGap(50, Short.MAX_VALUE))
+                                .addComponent(jlblFechaNacimiento)
+                                .addGap(18, 18, 18)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtxtSueldo, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jformatFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(61, 61, 61))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -264,8 +369,9 @@ DefaultTableModel modelo = new DefaultTableModel();
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jlblPnombre)
                         .addComponent(jtxtPnombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jlblFechaNacimiento)
-                    .addComponent(jformatFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jlblFechaNacimiento)
+                        .addComponent(jformatFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -314,9 +420,21 @@ DefaultTableModel modelo = new DefaultTableModel();
             }
         });
 
+        jbtnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnEditarActionPerformed(evt);
+            }
+        });
+
         jbtnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnCancelarActionPerformed(evt);
+            }
+        });
+
+        jbtnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnEliminarActionPerformed(evt);
             }
         });
 
@@ -337,6 +455,7 @@ DefaultTableModel modelo = new DefaultTableModel();
 
             }
         ));
+        jtblDatos.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jScrollPane1.setViewportView(jtblDatos);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -347,19 +466,19 @@ DefaultTableModel modelo = new DefaultTableModel();
                 .addGap(66, 66, 66)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jbtnInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(169, 169, 169)
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29)
+                        .addGap(39, 39, 39)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jbtnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jbtnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jbtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jbtnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jbtnInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(169, 169, 169)
-                        .addComponent(jLabel1))
                     .addComponent(jScrollPane1))
-                .addContainerGap(80, Short.MAX_VALUE))
+                .addGap(0, 70, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -371,12 +490,13 @@ DefaultTableModel modelo = new DefaultTableModel();
                 .addGap(30, 30, 30)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
                         .addComponent(jbtnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jbtnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jbtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
+                        .addGap(18, 18, 18)
                         .addComponent(jbtnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
@@ -400,6 +520,7 @@ DefaultTableModel modelo = new DefaultTableModel();
 
     private void jbtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCancelarActionPerformed
         // TODO add your handling code here:
+        Clean();
     }//GEN-LAST:event_jbtnCancelarActionPerformed
 
     private void jbtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnGuardarActionPerformed
@@ -409,7 +530,23 @@ DefaultTableModel modelo = new DefaultTableModel();
 
     private void jbtnInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnInicioActionPerformed
         // TODO add your handling code here:
+        this.setVisible(false);
+        log.setVisible(true);
     }//GEN-LAST:event_jbtnInicioActionPerformed
+
+    private void jbtnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnEditarActionPerformed
+        // TODO add your handling code here:
+        editarEmpleado();
+    }//GEN-LAST:event_jbtnEditarActionPerformed
+
+    private void jcbxNacionalidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbxNacionalidadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbxNacionalidadActionPerformed
+
+    private void jbtnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnEliminarActionPerformed
+        // TODO add your handling code here:
+        eliminarEmpleado();
+    }//GEN-LAST:event_jbtnEliminarActionPerformed
 
     /**
      * @param args the command line arguments
